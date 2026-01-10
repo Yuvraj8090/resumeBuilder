@@ -2,6 +2,187 @@
 @tailwind components;
 @tailwind utilities;
 
+/* -------------------------------------------------------------------------- */
+/* 1. Utilities                                                              */
+/* -------------------------------------------------------------------------- */
 [x-cloak] {
-    display: none;
+    display: none !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Base Styles (Global Resets)                                            */
+/* -------------------------------------------------------------------------- */
+@layer base {
+    /* Automatically style all text-based inputs to look premium */
+    input[type='text'],
+    input[type='email'],
+    input[type='password'],
+    input[type='number'],
+    input[type='search'],
+    textarea {
+        @apply block w-full rounded-xl border-slate-200 bg-slate-50 py-3 px-4 text-slate-900 shadow-sm transition-all duration-200 ease-in-out
+               placeholder:text-slate-400
+               focus:border-indigo-600 focus:bg-white focus:ring-4 focus:ring-indigo-600/10 focus:outline-none
+               disabled:cursor-not-allowed disabled:opacity-75 disabled:bg-slate-100
+               sm:text-sm;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Components (Buttons & Custom UI)                                       */
+/* -------------------------------------------------------------------------- */
+@layer components {
+    /* Primary Action Button (Indigo) */
+    .btn-primary {
+        @apply bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-indigo-500/30 
+               hover:bg-indigo-700 hover:shadow-indigo-500/40 hover:-translate-y-0.5 
+               transition-all transform active:scale-95 flex items-center justify-center gap-2;
+    }
+
+    /* Secondary Action Button (White/Slate) */
+    .btn-secondary {
+        @apply text-slate-500 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-700 
+               px-4 py-2.5 rounded-xl font-medium transition-all shadow-sm flex items-center justify-center gap-2;
+    }
+
+    /* Error State for Inputs */
+    .form-input-error {
+        @apply border-rose-300 bg-rose-50 text-rose-900 focus:border-rose-500 focus:ring-rose-500/10;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. DataTables SaaS Theme (Strict Overrides)                               */
+/* -------------------------------------------------------------------------- */
+
+/* Wrapper & Layout */
+.dataTables_wrapper {
+    position: relative;
+    clear: both;
+}
+
+/* Search Input (The "Propelrey" Look) */
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 1.5rem;
+    float: right;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem 0.5rem 2.5rem; /* Space for icon */
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+    width: 250px;
+    color: #475569;
+    background-color: #ffffff;
+    
+    /* Search Icon SVG */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%2394a3b8' class='w-6 h-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0.75rem center;
+    background-size: 1rem;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Length Select (Dropdown) */
+.dataTables_wrapper .dataTables_length select {
+    padding-right: 2.5rem;
+    background-image: none;
+    border-radius: 0.5rem;
+    border-color: #e2e8f0;
+    color: #64748b;
+    font-size: 0.875rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+}
+
+.dataTables_wrapper .dataTables_length select:focus {
+    border-color: #6366f1;
+    ring: 0;
+    outline: none;
+}
+
+/* Table Rows & Cells */
+table.dataTable.no-footer {
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+table.dataTable tbody tr {
+    background-color: transparent !important;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: #f8fafc !important;
+}
+
+table.dataTable tbody td {
+    padding: 1rem 1.5rem !important;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
+    color: #475569;
+}
+
+/* Pagination Buttons */
+.dataTables_wrapper .dataTables_paginate {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    margin: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+/* Active Page Button */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #4f46e5 !important;
+    color: white !important;
+    font-weight: 600;
+    border: 1px solid #4f46e5 !important;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+}
+
+/* Disabled Buttons */
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    background: transparent !important;
+    color: #94a3b8 !important;
+    box-shadow: none !important;
+}
+
+/* Info Text */
+.dataTables_wrapper .dataTables_info {
+    color: #94a3b8 !important;
+    font-size: 0.875rem;
+    padding-top: 1.75rem !important;
+    float: left;
 }

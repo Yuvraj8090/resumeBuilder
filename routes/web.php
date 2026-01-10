@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+ use App\Http\Controllers\RoleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,4 +15,9 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+   
+
+    Route::get('roles/data', [RoleController::class, 'data'])->name('roles.data');
+    Route::resource('roles', RoleController::class);
+
 });
