@@ -1,6 +1,0 @@
-flask
-python-docx
-fpdf
-reportlab
-spacy
-nltk
