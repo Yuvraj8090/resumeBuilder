@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->role && $this->role->name === $roleName;
     }
+    // Inside class User extends Authenticatable
+public function resumes()
+{
+    return $this->hasMany(Resume::class);
+}
 }

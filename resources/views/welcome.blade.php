@@ -39,7 +39,7 @@
                 <a href="#pricing" class="hover:text-indigo-600 transition">Pricing</a>
             </div>
             <div class="flex items-center gap-4">
-                <button class="text-sm font-semibold hover:text-indigo-600">Login</button>
+                <button class="text-sm font-semibold hover:text-indigo-600"><a href="{{ route('login') }}">Login</a></button>
                 <button class="bg-indigo-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition transform hover:scale-105">
                     Start Building
                 </button>
