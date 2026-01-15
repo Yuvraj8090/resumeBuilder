@@ -228,13 +228,13 @@
         </div>
         <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="relative group overflow-hidden rounded-2xl shadow-xl hover-lift">
-                <img src="https://images.unsplash.com/photo-1586282391129-59a998fd03c0?auto=format&fit=crop&w=400&q=80" alt="Modern" class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
+                <img src="https://images.unsplash.com/photo-1544652478-6653e09f18a2?auto=format&fit=crop&w=400&q=80" alt="Modern" class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-indigo-950 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end justify-center pb-8">
                     <button class="bg-white text-indigo-900 px-6 py-2 rounded-full font-bold">Use This Template</button>
                 </div>
             </div>
             <div class="relative group overflow-hidden rounded-2xl shadow-xl hover-lift">
-                <img src="https://images.unsplash.com/photo-1512418490979-92798ccc13a0?auto=format&fit=crop&w=400&q=80" alt="Classic" class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
+                <img src="https://images.unsplash.com/photo-1544652478-6653e09f18a2?auto=format&fit=crop&w=400&q=80" alt="Classic" class="w-full h-80 object-cover group-hover:scale-110 transition duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-indigo-950 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end justify-center pb-8">
                     <button class="bg-white text-indigo-900 px-6 py-2 rounded-full font-bold">Use This Template</button>
                 </div>
