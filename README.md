@@ -1,59 +1,139 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 AI Resume Builder (Laravel + Tailwind)
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 11"></a>
+<a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"></a>
+<a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP"></a>
 </p>
 
-## About Laravel
+A powerful, scalable Resume Builder application built with **Laravel 11**. 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Unlike traditional resume builders that rely on hundreds of hardcoded Blade files, this project uses a **Database-Driven Template Engine**. Resume designs are stored as HTML/Blade code in the database and rendered dynamically using `Blade::render()`, allowing for infinite scalability and instant updates without deployment.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Key Features
 
-## Learning Laravel
+### 🎨 User Features
+* **Dynamic Resume Builder:** Add Experience, Education, and Skills using a reactive form.
+* **Live Template Switching:** instantly change the look of a resume without re-entering data.
+* **PDF Export:** Download high-quality, ATS-friendly resumes.
+* **Glassmorphism UI:** A modern, clean interface built with Tailwind CSS.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 🛠️ Admin & Technical Features
+* **Database-Driven Rendering:** Templates are stored in the `templates` table (LONGTEXT) and compiled at runtime.
+* **Template Management:** Admin panel to Create, Edit, and Delete templates directly from the browser.
+* **Role-Based Access Control (RBAC):** Super Admin, Editor, and User roles.
+* **Yajra DataTables:** Server-side rendering for high-performance data grids.
+* **Bulk Seeding:** Automated setup for templates and sample data.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 📸 Screenshots
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Welcome Page | Resume Editor |
+|:---:|:---:|
+| <img src="https://via.placeholder.com/600x400?text=Welcome+Page" alt="Welcome Page" width="400"> | <img src="https://via.placeholder.com/600x400?text=Resume+Editor" alt="Resume Editor" width="400"> |
 
-### Premium Partners
+| Admin Dashboard | Template Selection |
+|:---:|:---:|
+| <img src="https://via.placeholder.com/600x400?text=Admin+Dashboard" alt="Admin Panel" width="400"> | <img src="https://via.placeholder.com/600x400?text=Template+Select" alt="Template Selection" width="400"> |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🛠️ Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* **Backend:** Laravel 11, PHP 8.2+
+* **Frontend:** Blade, Tailwind CSS, Alpine.js
+* **Database:** MySQL
+* **Icons:** Lucide Icons
+* **Packages:**
+    * `yajra/laravel-datatables` (Admin Tables)
+    * `laravel/jetstream` (Auth & Teams)
+    * `barryvdh/laravel-dompdf` (PDF Generation)
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Installation Guide
 
-## Security Vulnerabilities
+Follow these steps to set up the project locally.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/Yuvraj8090/resumeBuilder.git](https://github.com/Yuvraj8090/resumeBuilder.git)
+cd resumeBuilder
+2. Install Dependencies
+Bash
 
-## License
+composer install
+npm install && npm run build
+3. Environment Setup
+Copy the .env file and generate the app key.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Bash
+
+cp .env.example .env
+php artisan key:generate
+4. Database Setup
+Create a database (e.g., resume_builder) in your MySQL, then configure your .env file:
+
+Code snippet
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=resume_builder
+DB_USERNAME=root
+DB_PASSWORD=
+5. Migrate & Seed (Important!)
+This command will create tables and insert the Super Admin user and Default Templates.
+
+Bash
+
+php artisan migrate --seed
+Note: If you want to seed specific templates manually:
+
+Bash
+
+php artisan db:seed --class=ModernTemplateSeeder
+6. Run the Server
+Bash
+
+php artisan serve
+Visit http://127.0.0.1:8000 in your browser.
+
+👤 Default Login
+Email: admin@gmail.com
+
+Password: password (or whatever you set in UserSeeder)
+
+🧩 Architectural Highlight: Dynamic Rendering
+Instead of creating physical files for every new template:
+
+Storage: We store the raw Blade HTML in the templates table.
+
+Rendering: We use Laravel's inline rendering engine:
+
+PHP
+
+// ResumeController.php
+$html = Blade::render($template->html_code, ['resume' => $resume]);
+Benefit: This allows the Admin to fix typos, change colors, or add new designs instantly without touching the codebase or deploying to the server.
+
+🤝 Contributing
+Contributions are welcome!
+
+Fork the Project
+
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+
+Push to the Branch (git push origin feature/AmazingFeature)
+
+Open a Pull Request
+
+📄 License
+This project is open-sourced software licensed under the MIT license.
+
+<p align="center"> Built with ❤️ by <a href="https://www.google.com/search?q=https://github.com/Yuvraj8090">Yuvraj Kohli</a> </p>
