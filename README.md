@@ -136,4 +136,9 @@ Open a Pull Request
 📄 License
 This project is open-sourced software licensed under the MIT license.
 
-<p align="center"> Built with ❤️ by <a href="https://www.google.com/search?q=https://github.com/Yuvraj8090">Yuvraj Kohli</a> </p>
+<p align="center"> Built with ❤️ by <a href="https://www.google.com/search?q=https://github.com/Yuvraj8090">Yuvraj Kohli</a> </p>## 📞 Contact
+
+If you have any questions or feedback, feel free to reach out:
+
+*   **GitHub:** [Yuvraj8090](https://github.com/Yuvraj8090)
+*   **LinkedIn:** [Yuvraj Kohli](https://www.linkedin.com/in/yuvraj-kohli-75317a210/)
