@@ -9,9 +9,9 @@ class Experience extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
-    // Cast dates to Carbon instances automatically
+    // Automatically convert date columns to Carbon instances
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',

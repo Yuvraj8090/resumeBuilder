@@ -9,10 +9,10 @@ class Education extends Model
 {
     use HasFactory;
 
-    // Explicitly define table name just in case
+    // Explicitly define table name to avoid pluralization issues (common with 'education')
     protected $table = 'education'; 
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'start_date' => 'date',

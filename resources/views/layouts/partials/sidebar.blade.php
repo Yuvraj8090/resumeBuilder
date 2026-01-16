@@ -18,6 +18,12 @@
             Dashboard
         </x-nav-link>
 
+        <p class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-6">Workspace</p>
+
+        <x-nav-link href="{{ route('resumes.index') }}" :active="request()->routeIs('resumes.*')" icon="file-text">
+            Resumes
+        </x-nav-link>
+
         <p class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-6">Management</p>
 
         <x-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.*')" icon="shield-check">

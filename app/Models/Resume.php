@@ -9,7 +9,8 @@ class Resume extends Model
 {
     use HasFactory;
 
-    protected $guarded = []; // Allows mass assignment
+    // Allow mass assignment for all fields (id is protected by default)
+    protected $guarded = ['id'];
 
     public function user()
     {
@@ -18,12 +19,12 @@ class Resume extends Model
 
     public function experiences()
     {
-        return $this->hasMany(Experience::class);
+        return $this->hasMany(Experience::class)->orderBy('start_date', 'desc');
     }
 
     public function education()
     {
-        return $this->hasMany(Education::class);
+        return $this->hasMany(Education::class)->orderBy('start_date', 'desc');
     }
 
     public function skills()
