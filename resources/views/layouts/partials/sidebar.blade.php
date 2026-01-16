@@ -26,6 +26,10 @@
 
         <p class="px-3 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-6">Management</p>
 
+        <x-nav-link href="{{ route('admin.templates.index') }}" :active="request()->routeIs('admin.templates.*')" icon="layout-template">
+            Templates
+        </x-nav-link>
+
         <x-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.*')" icon="shield-check">
             Roles & Permissions
         </x-nav-link>

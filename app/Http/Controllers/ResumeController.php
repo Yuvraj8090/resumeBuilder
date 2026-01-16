@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Resume;
-use App\Models\Experience;
-use App\Models\Education;
-use App\Models\Skill;
+use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Blade;
 use Yajra\DataTables\Facades\DataTables;
 
 class ResumeController extends Controller
 {
     /**
-     * Display the index page (The Table View).
+     * Display the index page.
      */
     public function index()
     {
@@ -22,37 +21,44 @@ class ResumeController extends Controller
     }
 
     /**
-     * Process DataTables AJAX request (Fast Loading).
-     */
-   /**
      * Process DataTables AJAX request.
      */
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $query = Resume::where('user_id', Auth::id())
-                           ->select(['id', 'title', 'template_style', 'created_at', 'updated_at']);
+            // FIX: Select 'template_id' instead of 'template_style'
+            // FIX: Eager load 'template' so we can show the name
+            $query = Resume::with('template')
+                           ->where('user_id', Auth::id())
+                           ->select(['id', 'title', 'template_id', 'created_at', 'updated_at']);
 
             return DataTables::of($query)
                 ->addIndexColumn()
                 ->editColumn('created_at', function ($row) {
                     return $row->created_at->format('M d, Y');
                 })
+                // FIX: Show the Template Name instead of the ID
+                ->addColumn('template_style', function ($row) {
+                    $name = $row->template ? $row->template->name : 'Standard';
+                    return '<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-slate-100 text-slate-600 border border-slate-200">'.$name.'</span>';
+                })
                 ->addColumn('action', function ($row) {
                     $editUrl = route('resumes.edit', $row->id);
                     $deleteUrl = route('resumes.destroy', $row->id);
+                    $previewUrl = route('resumes.preview', $row->id);
                     
-                    // FIX: Use csrf_field() to generate the full <input> tag
-                    // Casting to (string) ensures it renders the HTML, not the object
                     $csrf = (string) csrf_field(); 
                     $method = (string) method_field('DELETE');
 
                     return "
                         <div class='flex items-center justify-end gap-2'>
+                            <a href='{$previewUrl}' target='_blank' class='px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 text-sm font-semibold transition flex items-center gap-1'>
+                                <i data-lucide='eye' class='w-3 h-3'></i> View
+                            </a>
                             <a href='{$editUrl}' class='px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 text-sm font-semibold transition'>
                                 Edit
                             </a>
-                            <form action='{$deleteUrl}' method='POST' onsubmit='return confirm(\"Are you sure you want to delete this resume?\");'>
+                            <form action='{$deleteUrl}' method='POST' onsubmit='return confirm(\"Delete this resume?\");' style='display:inline;'>
                                 {$csrf}
                                 {$method}
                                 <button type='submit' class='px-3 py-1.5 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 text-sm font-semibold transition'>
@@ -62,65 +68,37 @@ class ResumeController extends Controller
                         </div>
                     ";
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'template_style'])
                 ->make(true);
         }
     }
 
-    /**
-     * Show the form for creating a new resume.
-     */
     public function create()
     {
         return view('resumes.create');
     }
 
-    /**
-     * Store a newly created resume and all its relations in one go.
-     */
     public function store(Request $request)
     {
-        // 1. Validate Main Resume Data and Nested Arrays
+        // Validation (Removed template_style)
         $validated = $request->validate([
-            // Resume Table
             'title' => 'required|string|max:255',
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:30',
             'linkedin_url' => 'nullable|url|max:255',
             'summary' => 'nullable|string',
-            'template_style' => 'nullable|string',
             
-            // Experience Table
+            // Arrays
             'experiences' => 'nullable|array',
-            'experiences.*.job_title' => 'required|string',
-            'experiences.*.employer' => 'required|string',
-            'experiences.*.city' => 'nullable|string',
-            'experiences.*.start_date' => 'nullable|date',
-            'experiences.*.end_date' => 'nullable|date',
-            'experiences.*.is_current' => 'boolean',
-            'experiences.*.description' => 'nullable|string',
-            
-            // Education Table
             'education' => 'nullable|array',
-            'education.*.institution' => 'required|string',
-            'education.*.degree' => 'required|string',
-            'education.*.city' => 'nullable|string',
-            'education.*.start_date' => 'nullable|date',
-            'education.*.end_date' => 'nullable|date',
-            'education.*.is_current' => 'boolean',
-            'education.*.description' => 'nullable|string',
-
-            // Skills Table
             'skills' => 'nullable|array',
-            'skills.*.name' => 'required|string',
-            'skills.*.level' => 'nullable|string', // e.g., Beginner, Expert
         ]);
 
         try {
             DB::beginTransaction();
 
-            // A. Create the Main Resume
+            // A. Create Resume
             $resume = Resume::create([
                 'user_id' => Auth::id(),
                 'title' => $validated['title'],
@@ -129,54 +107,31 @@ class ResumeController extends Controller
                 'phone' => $validated['phone'] ?? null,
                 'linkedin_url' => $validated['linkedin_url'] ?? null,
                 'summary' => $validated['summary'] ?? null,
-                'template_style' => $validated['template_style'] ?? 'modern',
+                'template_id' => 1, // Default to ID 1 (ensure you have a template with ID 1)
             ]);
 
-            // B. Bulk Insert Relations
-            if (!empty($request->experiences)) {
-                $resume->experiences()->createMany($request->experiences);
-            }
-
-            if (!empty($request->education)) {
-                $resume->education()->createMany($request->education);
-            }
-
-            if (!empty($request->skills)) {
-                $resume->skills()->createMany($request->skills);
-            }
+            // B. Save Relations
+            $this->saveRelations($resume, $request);
 
             DB::commit();
 
-            return redirect()->route('resumes.index')
-                ->with('success', 'Resume created successfully!');
+            // Redirect to Template Selection instead of Index
+            return redirect()->route('resumes.selectTemplate', $resume->id)
+                ->with('success', 'Resume created! Please select a template.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            logger('Resume Create Error: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Failed to create resume. Please try again.');
+            return back()->withInput()->with('error', 'Error: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Resume $resume)
     {
-        // Security check
-        if ($resume->user_id !== Auth::id()) {
-            abort(403);
-        }
-
-        // Eager load relations for performance
+        if ($resume->user_id !== Auth::id()) abort(403);
         $resume->load(['experiences', 'education', 'skills']);
-
         return view('resumes.edit', compact('resume'));
     }
 
-    /**
-     * Update the resume.
-     * Strategy: Update parent, delete old relations, re-create new relations (simplest for complex forms).
-     */
     public function update(Request $request, Resume $resume)
     {
         if ($resume->user_id !== Auth::id()) abort(403);
@@ -188,11 +143,7 @@ class ResumeController extends Controller
             'phone' => 'nullable|string',
             'linkedin_url' => 'nullable|url',
             'summary' => 'nullable|string',
-            'template_style' => 'nullable|string',
-            
-            // Nested arrays validation same as store...
             'experiences' => 'nullable|array',
-            'experiences.*.job_title' => 'required|string',
             'education' => 'nullable|array',
             'skills' => 'nullable|array',
         ]);
@@ -200,7 +151,6 @@ class ResumeController extends Controller
         try {
             DB::beginTransaction();
 
-            // 1. Update Main Resume
             $resume->update([
                 'title' => $validated['title'],
                 'full_name' => $validated['full_name'],
@@ -208,50 +158,90 @@ class ResumeController extends Controller
                 'phone' => $validated['phone'] ?? null,
                 'linkedin_url' => $validated['linkedin_url'] ?? null,
                 'summary' => $validated['summary'] ?? null,
-                'template_style' => $validated['template_style'] ?? 'modern',
+                // Do NOT update template_id here, that is done in selectTemplate
             ]);
 
-            // 2. Sync Relations (Delete All & Re-create)
-            // Note: For a production app with heavy usage, you might want to update existing IDs individually.
-            // But for a Resume builder, wiping and rewriting is safe and much cleaner.
-            
-            $resume->experiences()->delete();
-            if (!empty($request->experiences)) {
-                $resume->experiences()->createMany($request->experiences);
-            }
-
-            $resume->education()->delete();
-            if (!empty($request->education)) {
-                $resume->education()->createMany($request->education);
-            }
-
-            $resume->skills()->delete();
-            if (!empty($request->skills)) {
-                $resume->skills()->createMany($request->skills);
-            }
+            $this->saveRelations($resume, $request);
 
             DB::commit();
-            return redirect()->route('resumes.index')
-                ->with('success', 'Resume created successfully!');
+            return redirect()->route('resumes.index')->with('success', 'Resume updated successfully!');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            logger('Resume Update Error: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Failed to update resume.');
+            return back()->withInput()->with('error', 'Error: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Resume $resume)
     {
-        if ($resume->user_id !== Auth::id()) {
-            abort(403);
+        if ($resume->user_id !== Auth::id()) abort(403);
+        $resume->delete();
+        return back()->with('success', 'Resume deleted successfully.');
+    }
+
+    // --- Template Selection & Preview ---
+
+    public function selectTemplate($id)
+    {
+        $resume = Resume::where('user_id', Auth::id())->findOrFail($id);
+        $templates = Template::all();
+        return view('resumes.select-template', compact('resume', 'templates'));
+    }
+
+    public function updateTemplate(Request $request, $id)
+    {
+        $resume = Resume::where('user_id', Auth::id())->findOrFail($id);
+        
+        $resume->update([
+            'template_id' => $request->template_id
+        ]);
+        
+        return redirect()->route('resumes.preview', $id);
+    }
+
+    public function preview($id)
+    {
+        $resume = Resume::with(['template', 'education', 'experiences', 'skills'])
+                        ->where('user_id', Auth::id())
+                        ->findOrFail($id);
+
+        if (!$resume->template) {
+            return redirect()->route('resumes.selectTemplate', $id);
         }
 
-        $resume->delete(); // Cascading deletes should handle relations if set in DB, otherwise Eloquent events needed.
+        try {
+            return Blade::render($resume->template->html_code, ['resume' => $resume]);
+        } catch (\Exception $e) {
+            return response("Error rendering template: " . $e->getMessage(), 500);
+        }
+    }
 
-        return back()->with('success', 'Resume deleted successfully.');
+    // --- Private Helper ---
+
+    private function saveRelations(Resume $resume, Request $request)
+    {
+        // 1. Experiences
+        if ($request->has('experiences')) {
+            $resume->experiences()->delete();
+            $data = collect($request->experiences)->filter(fn($i) => !empty($i['job_title']))->map(function($i){
+                $i['is_current'] = isset($i['is_current']) ? 1 : 0;
+                return $i;
+            });
+            if($data->isNotEmpty()) $resume->experiences()->createMany($data->toArray());
+        }
+
+        // 2. Education
+        if ($request->has('education')) {
+            $resume->education()->delete();
+            $data = collect($request->education)->filter(fn($i) => !empty($i['degree']));
+            if($data->isNotEmpty()) $resume->education()->createMany($data->toArray());
+        }
+
+        // 3. Skills
+        if ($request->has('skills')) {
+            $resume->skills()->delete();
+            $data = collect($request->skills)->filter(fn($i) => !empty($i['name']));
+            if($data->isNotEmpty()) $resume->skills()->createMany($data->toArray());
+        }
     }
 }
