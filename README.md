@@ -16,7 +16,7 @@ Unlike traditional resume builders that rely on hundreds of hardcoded Blade file
 
 ### 🎨 User Features
 * **Dynamic Resume Builder:** Add Experience, Education, and Skills using a reactive form.
-* **Live Template Switching:** instantly change the look of a resume without re-entering data.
+* **Live Template Switching:** Instantly change the look of a resume without re-entering data.
 * **PDF Export:** Download high-quality, ATS-friendly resumes.
 * **Glassmorphism UI:** A modern, clean interface built with Tailwind CSS.
 
@@ -112,7 +112,7 @@ Instead of creating physical files for every new template:
 
 Storage: We store the raw Blade HTML in the templates table.
 
-Rendering: We use Laravel inline rendering engine:
+Rendering: We use Laravel's inline rendering engine:
 
 PHP
 
@@ -136,9 +136,13 @@ Open a Pull Request
 📄 License
 This project is open-sourced software licensed under the MIT license.
 
-<p align="center"> Built with ❤️ by <a href="https://www.google.com/search?q=https://github.com/Yuvraj8090">Yuvraj Kohli</a> </p>## 📞 Contact
-
+📞 Contact
 If you have any questions or feedback, feel free to reach out:
 
-*   **GitHub:** [Yuvraj8090](https://github.com/Yuvraj8090)
-*   **LinkedIn:** [Yuvraj Kohli](https://www.linkedin.com/in/yuvraj-kohli-75317a210/)
+GitHub: Yuvraj8090
+
+LinkedIn: Yuvraj Kohli
+
+Email: yuvrajkohli8090@gmail.com
+
+<p align="center"> Built with ❤️ by <a href="https://github.com/Yuvraj8090">Yuvraj Kohli</a> </p>
