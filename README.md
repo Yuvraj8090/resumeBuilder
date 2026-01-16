@@ -112,7 +112,7 @@ Instead of creating physical files for every new template:
 
 Storage: We store the raw Blade HTML in the templates table.
 
-Rendering: We use Laravel's inline rendering engine:
+Rendering: We use Laravel inline rendering engine:
 
 PHP
 
